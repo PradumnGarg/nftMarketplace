@@ -4,9 +4,9 @@ import Link from 'next/link'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <div>
+    <div className="bg-neutral-900">
       <nav className="border-b p-6">
-        <p className="text-4xl font-bold">Metaverse Marketplace</p>
+        <p className="text-4xl font-bold text-white">Metaverse Marketplace</p>
         <div className="flex mt-4">
           <Link href="/">
             <a className="mr-4 text-pink-500">

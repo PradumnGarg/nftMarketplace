@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
-/* pages/create-nft.js */
 import { useState } from 'react'
 import { ethers } from 'ethers'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
@@ -21,7 +20,6 @@ export default function CreateItem() {
   const router = useRouter()
 
   async function onChange(e) {
-    /* upload image to IPFS */
     const file = e.target.files[0]
     try {
       const added = await client.add(
@@ -39,14 +37,14 @@ export default function CreateItem() {
   async function uploadToIPFS() {
     const { name, description, price } = formInput
     if (!name || !description || !price || !fileUrl) return
-    /* first, upload metadata to IPFS */
+    /* first, upload to IPFS */
     const data = JSON.stringify({
       name, description, image: fileUrl
     })
     try {
       const added = await client.add(data)
       const url = `https://ipfs.infura.io/ipfs/${added.path}`
-      /* after metadata is uploaded to IPFS, return the URL to use it in the transaction */
+      /* after file is uploaded to IPFS, return the URL to use it in the transaction */
       return url
     } catch (error) {
       console.log('Error uploading file: ', error)
@@ -60,14 +58,14 @@ export default function CreateItem() {
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
 
-    /* create the NFT */
+    /* next, create the item */
     const price = ethers.utils.parseUnits(formInput.price, 'ether')
     let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
     let listingPrice = await contract.getListingPrice()
     listingPrice = listingPrice.toString()
     let transaction = await contract.createToken(url, price, { value: listingPrice })
     await transaction.wait()
-
+   
     router.push('/')
   }
 
@@ -106,4 +104,4 @@ export default function CreateItem() {
       </div>
     </div>
   )
-    }
+}
