@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
+/* pages/resell-nft.js */
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
@@ -43,7 +44,7 @@ export default function ResellNFT() {
     listingPrice = listingPrice.toString()
     let transaction = await contract.resellToken(id, priceFormatted, { value: listingPrice })
     await transaction.wait()
-   
+
     router.push('/')
   }
 
